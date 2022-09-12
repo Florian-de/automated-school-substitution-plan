@@ -1,0 +1,30 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Krankmeldung
+{% endblock %}
+
+{% block main %}
+    <form action="/student_ill" method="post">
+        <div class="mb-3">
+            <h3>Ich bin krank am...</h3>
+        </div>
+        <div class="mb-3">
+            <input id="monday" name="monday" type="checkbox" value="monday" />
+            <label for="monday"> Montag </label>
+            <br>
+            <input id="tuesday" name="tuesday" type="checkbox" value="tuesday" />
+            <label for="tuesday"> Dienstag </label>
+            <br>
+            <input id="wednesday" name="wednesday" type="checkbox" value="wednesday" />
+            <label for="wednesday"> Mittwoch </label>
+            <br>
+            <input id="thursday" name="thursday" type="checkbox" value="thursday" />
+            <label for="thursday"> Donnerstag </label>
+            <br>
+            <input id="friday" name="friday" type="checkbox" value="friday" />
+            <label for="friday"> Freitag </label>
+        </div>
+        <button class="btn btn-primary" type="submit">krankmelden</button>
+    </form>
+{% endblock %}

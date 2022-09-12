@@ -1,0 +1,29 @@
+{% extends "layout.html" %}
+
+{% block title %}
+   Vertretungsplan
+{% endblock %}
+
+{% block main %}
+<div class="section">
+    <h1>Dein Vertretungsplan</h1>
+    <table id="coll">
+        <thead>
+            <tr>
+                <th>Tag/Stunde</th>
+                <th>Lehrer*in</th>
+                <th>Fach</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for d in data[1] %}
+                <tr>
+                    <td>{{ d["zeit"] }}</td>
+                    <td>{{ d["lehrerID"] }}</td>
+                    <td>{{ d["fach"] }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

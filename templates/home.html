@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Auswahl
+{% endblock %}
+
+{% block main %}
+    <form action="/" method="post">
+        <div class="mb-3">
+            <h3>Ich bin...</h3>
+        </div>
+        <div class="mb-3">
+            <input id="student" name="student" type="checkbox" value="student" />
+            <label for="student"> Schüler*in </label>
+            <br>
+            <input id="teacher" name="teacher" type="checkbox" value="teacher" />
+            <label for="teacher"> Lehrer*in </label>
+        </div>
+        <button class="btn btn-primary" type="submit">Weiter</button>
+    </form>
+{% endblock %}

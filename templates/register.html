@@ -1,0 +1,30 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Registrieren
+{% endblock %}
+
+{% block main %}
+    <form action="/register" method="post">
+        <div class="mb-3">
+            <h3>Ich bin...</h3>
+        </div>
+        <div class="mb-3">
+            <input id="student" name="student" type="checkbox" value="student" />
+            <label for="student"> Schüler*in </label>
+            <br>
+            <input id="teacher" name="teacher" type="checkbox" value="teacher" />
+            <label for="teacher"> Lehrer*in </label>
+        </div>
+        <div class="mb-3">
+            <input autocomplete="off" autofocus class="form-control mx-auto w-auto" id="name" name="name" placeholder="Name" type="text">
+        </div>
+        <div class="mb-3">
+            <input class="form-control mx-auto w-auto" id="password" name="password" placeholder="Passwort" type="password">
+        </div>
+        <div class="mb-3">
+            <input class="form-control mx-auto w-auto" id="klassen_id" name="klassen_id" placeholder="klassenID" type="klassen_id">
+        </div>
+        <button class="btn btn-primary" type="submit">Registrieren</button>
+    </form>
+{% endblock %}

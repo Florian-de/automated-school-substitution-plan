@@ -1,0 +1,14 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Registrieren
+{% endblock %}
+
+{% block main %}
+    <form action="/registered" method="post">
+        <div class="mb-3">
+            <h3>Deine ID ist {{data[0]["ID"]}}</h3>
+        </div>
+        <button class="btn btn-primary" type="submit">Fertig</button>
+    </form>
+{% endblock %}
