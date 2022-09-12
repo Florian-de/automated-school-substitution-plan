@@ -31,12 +31,15 @@ def register():
         student = request.form.get("student")
         teacher = request.form.get("teacher")
         klassenID = request.form.get("klassen_id")
+        # false selection
         if teacher and student:
             return render_template("/register.html")
+        # case teacher registration
         elif teacher:
             db.execute("INSERT INTO Teachers (name, password) VALUES (?, ?)", name, generate_password_hash(password))
             id = db.execute("SELECT ID FROM Teachers where name = ?", name)
             return render_template("/registered.html", data=id)
+        # case student registration
         elif student:
             db.execute("INSERT INTO Students (name, password, klassenID) VALUES (?, ?, ?)", name, generate_password_hash(password), klassenID)
             id = db.execute("SELECT ID FROM Students where name = ?", name)
@@ -58,12 +61,16 @@ def home():
     if request.method == "POST":
         student = request.form.get("student")
         teacher = request.form.get("teacher")
+        # case none selected
         if student and teacher:
             return redirect("/")
+        # case student
         elif student:
             return redirect("/student_login")
+        # case teacher
         elif teacher:
             return redirect("/teacher_login")
+        # case both selected
         else:
             return redirect("/")
     else:
@@ -132,12 +139,14 @@ def teacher_login():
 @app.route("/teacher_vertretungsplan", methods=["POST", "GET"])
 @login_required
 def teacher_vertretungsplan():
+    # load data for indiviual substitution plan
     data = db.execute("SELECT * FROM Vertretung WHERE lehrerID = ?", session["user_id"])
     return render_template("/teacher_vertretungsplan.html", data=["teacher", data])
 
 @app.route("/student_vertretungsplan", methods=["POST", "GET"])
 @login_required
 def student_vertretungsplan():
+    # load data for indiviual substitution plan
     klassenID = db.execute("SELECT klassenID FROM Students WHERE ID=?", session["user_id"])
     data = db.execute("SELECT * FROM Vertretung WHERE klassenID = ?", klassenID[0]["klassenID"])
     return render_template("/student_vertretungsplan.html", data=["student", data])
@@ -147,16 +156,22 @@ def student_vertretungsplan():
 def teacher_ill():
     monday = request.form.get("monday")
     if monday:
+        # get all classes the teacher has on the day
         stunden = db.execute("SELECT mo1, mo2, mo3, mo4, mo5, mo6 FROM Teachers WHERE ID = ?", session["user_id"])[0]
+        # goes throw all classes
         for stunde in stunden:
+            # case first or last hour
             if stunde == "mo1" or stunde == "mo6":
                 klasse_fach = stunden[stunde].split("/")
                 db.execute("INSERT INTO Vertretung (lehrerID, klassenID, zeit, fach) VALUES (?,?,?,?)", 1, klasse_fach[0], stunde, klasse_fach[1])
             else:
+                # get available teachers
                 klasse_fach = stunden[stunde].split("/")
                 verfügbare_lehrer = db.execute("SELECT ID FROM Teachers WHERE fach = ?", klasse_fach[1])
+                # there is a teacher available
                 if verfügbare_lehrer:
                     db.execute("INSERT INTO Vertretung (lehrerID, klasse, zeit, fach) VALUES (?,?,?,?)", verfügbare_lehrer[0], klasse_fach[0], stunde, klasse_fach[1])
+                # there is no teacher available
                 else:
                     db.execute("INSERT INTO Vertretung (lehrerID, klassenID, zeit, fach) VALUES (?,?,?,?)", 0, klasse_fach[0], stunde, klasse_fach[1])
 
